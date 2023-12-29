@@ -13,6 +13,7 @@ cache:
     - node_modules/
 
 before_script:
+  - cd angular-16-crud-example
   - npm install -g @angular/cli
 
 build:
