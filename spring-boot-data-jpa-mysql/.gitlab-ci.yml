@@ -1,0 +1,34 @@
+image: docker:latest 
+services:
+    - docker:dind
+
+stages:
+    - build
+    - package 
+    - deploy
+
+maven-build:
+    image: maven:3-openjdk-17
+    stage: build
+    script: "mvn package -B" 
+    artifacts:
+        paths:
+            - target/*.jar
+
+docker-build:
+    stage: package
+    before_script:
+        - docker login -u ahmedelbaz771 -p $DOCKER_HUB_PASSWORD
+    script:
+        - docker build -t ahmedelbaz771/backend-devops .
+        - docker push ahmedelbaz771/backend-devops
+
+docker-deploy:
+    stage: deploy
+    before_script: apk add --update curl && rm -rf /var/cache/apk/*
+    script:
+    - docker run -d -p 8080:8080 --name backend-devops ahmedelbaz771/backend-devops
+    - sleep 30
+    - docker logs backend-devops
+    - curl -v "http://docker:8080/"
+    - docker logs backend-devops
