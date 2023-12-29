@@ -25,6 +25,8 @@ build:
 docker-build:
   stage: package
   before_script:
+    - apt-get update -qy
+    - apt-get install -y docker.io
     - docker login -u ahmedelbaz771 -p $DOCKER_HUB_PASSWORD
   script:
     - docker build -t ahmedelbaz771/frontend-devops .
@@ -38,5 +40,5 @@ docker-deploy:
     - docker run -d -p 8081:80 --name frontend-devops ahmedelbaz771/frontend-devops
     - sleep 30
     - docker logs frontend-devops
-    - curl -v "http://localhost:8081/"
+    - curl -v "http://docker:8081/"
     - docker logs frontend-devops
