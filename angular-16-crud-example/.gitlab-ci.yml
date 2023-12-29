@@ -1,11 +1,12 @@
-image: docker:latest 
-services:
-    - docker:dind
+image: node:14  
 
 stages:
   - build
   - package
   - deploy
+
+services:
+  - docker:dind
 
 cache:
   paths:
@@ -21,22 +22,20 @@ build:
     - npm run build --prod
 
 docker-build:
-    stage: package
-    before_script:
-        - docker login -u ahmedelbaz771 -p $DOCKER_HUB_PASSWORD
-    script:
-        - docker build -t ahmedelbaz771/frontend-devops .
-        - docker push ahmedelbaz771/frontend-devops
-
-
+  stage: package
+  before_script:
+    - docker login -u ahmedelbaz771 -p $DOCKER_HUB_PASSWORD
+  script:
+    - docker build -t ahmedelbaz771/frontend-devops .
+    - docker push ahmedelbaz771/frontend-devops
 
 docker-deploy:
-    stage: deploy
-    before_script: apk add --update curl && rm -rf /var/cache/apk/*
-    script:
+  stage: deploy
+  before_script:
+    - apk add --update curl && rm -rf /var/cache/apk/*
+  script:
     - docker run -d -p 8081:80 --name frontend-devops ahmedelbaz771/frontend-devops
     - sleep 30
     - docker logs frontend-devops
-    - curl -v "http://docker:8081/"
+    - curl -v "http://localhost:8081/"
     - docker logs frontend-devops
-
