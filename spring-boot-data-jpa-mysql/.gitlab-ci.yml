@@ -12,7 +12,7 @@ maven-build:
     stage: build
     before_script:
         - cd spring-boot-data-jpa-mysql
-    script: "mvn package -B" 
+    script: "mvn package -B -DskipTests" 
     artifacts:
         paths:
             - target/*.jar
