@@ -25,6 +25,7 @@ build:
 docker-build:
   stage: package
   before_script:
+    - cd angular-16-crud-example
     - apt-get update -qy
     - apt-get install -y docker.io
     - docker login -u ahmedelbaz771 -p $DOCKER_HUB_PASSWORD
