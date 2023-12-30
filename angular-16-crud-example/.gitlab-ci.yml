@@ -28,7 +28,6 @@ docker-build:
     - docker:dind
   before_script:
     - cd angular-16-crud-example
-    - usermod -aG docker gitlab-runner
     - docker login -u ahmedelbaz771 -p $DOCKER_HUB_PASSWORD
   script:
     - docker build -t ahmedelbaz771/frontend-devops .
