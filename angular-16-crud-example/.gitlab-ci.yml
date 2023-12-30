@@ -24,13 +24,14 @@ build:
 
 docker-build:
   stage: package
+  services:
+    - docker:dind
   before_script:
     - cd angular-16-crud-example
-    - apt-get update -qy
-    - apt-get install -y docker.io
+    - apk add --update --no-cache docker
+    - docker info
     - docker login -u ahmedelbaz771 -p $DOCKER_HUB_PASSWORD
   script:
-    - cd angular-16-crud-example
     - docker build -t ahmedelbaz771/frontend-devops .
     - docker push ahmedelbaz771/frontend-devops
 
