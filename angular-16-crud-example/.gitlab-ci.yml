@@ -28,7 +28,8 @@ docker-build:
     - docker:dind
   before_script:
     - cd angular-16-crud-example
-    - apk add --update --no-cache docker
+    - apt-get update -qy
+    - apt-get install -y docker.io
     - docker info
     - docker login -u ahmedelbaz771 -p $DOCKER_HUB_PASSWORD
   script:
