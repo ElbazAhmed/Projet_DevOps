@@ -29,6 +29,7 @@ docker-build:
     - apt-get install -y docker.io
     - docker login -u ahmedelbaz771 -p $DOCKER_HUB_PASSWORD
   script:
+    - cd angular-16-crud-example
     - docker build -t ahmedelbaz771/frontend-devops .
     - docker push ahmedelbaz771/frontend-devops
 
