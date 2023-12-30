@@ -10,6 +10,8 @@ stages:
 maven-build:
     image: maven:3-openjdk-17
     stage: build
+    before_script:
+        - cd spring-boot-data-jpa-mysql
     script: "mvn package -B" 
     artifacts:
         paths:
@@ -18,6 +20,7 @@ maven-build:
 docker-build:
     stage: package
     before_script:
+        - cd spring-boot-data-jpa-mysql
         - docker login -u ahmedelbaz771 -p $DOCKER_HUB_PASSWORD
     script:
         - docker build -t ahmedelbaz771/backend-devops .
