@@ -28,7 +28,6 @@ docker-build:
     - docker:dind
   before_script:
     - cd angular-16-crud-example
-    - apk add --update docker
     - service docker start
     - docker info
     - docker login -u ahmedelbaz771 -p $DOCKER_HUB_PASSWORD
